@@ -1,0 +1,37 @@
+{
+  "name": "peerjs-mock",
+  "version": "0.1.0",
+  "description": "Mock for peerjs",
+  "main": "lib/PeerMock.js",
+  "scripts": {
+    "test": "istanbul cover _mocha test/ && istanbul report cobertura"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/relekang/peerjs-mock.git"
+  },
+  "keywords": [
+    "hashring"
+  ],
+  "author": "Rolf Erik Lekang <me@rolflekang.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/relekang/peerjs-mock/issues"
+  },
+  "homepage": "https://github.com/relekang/peerjs-mock",
+  "dependencies": {
+    "bailey": "0.0.15",
+    "eventemitter3": "^0.1.6",
+    "lodash": "^3.2.0"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "istanbul": "*",
+    "karma": "*",
+    "karma-browserify": "*",
+    "karma-cli": "*",
+    "karma-mocha": "*",
+    "karma-phantomjs-launcher": "*",
+    "mocha": "*"
+  }
+}
