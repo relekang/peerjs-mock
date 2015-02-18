@@ -1,0 +1,57 @@
+import eventemitter3 as EventEmitter
+import lodash as _
+
+export DataConnectionMock
+
+class DataConnectionMock extends EventEmitter
+  open: false
+  type: 'data'
+  peer: undefined
+  provider: undefined
+
+  init: (peer, provider, options) ->
+    @options = _.extend({ serialization: 'binary' reliable: false }, options)
+    @peer = peer
+    @provider = provider
+    @id = @options.connectId or DataConnectionMock._idPrefix + Date.now()
+    @label = @options.label or @id
+    @reliable = @options.reliable
+    @serialization = @options.serialization
+
+    @_buffer = []
+    @_buffering = false
+    @bufferSize = 0
+
+  _setRemote: (connection) ->
+    @_connection = connection
+
+  _configureDataChannel: () ->
+    @open = true
+    @emit('open')
+
+    if @peer in mocks
+      @_connection = mocks[@peer]._negotiate(@provider.id)
+    else
+      throw new Error('Peer not found')
+
+  send: (message, chunked) ->
+    if not @open
+      @emit('error', new Error('Connection is not open. You should listen for the `open` event before sending messages.'))
+
+    @_connection.receive(message)
+
+  receive: (message) ->
+    @emit('data', message)
+
+  close: () ->
+    if not @open
+      return
+    @open = false
+    @emit('close')
+
+    _bufferedSend = (msg) ->
+      if @_buffering or not @_trySend(msg)
+        @_buffer.push(msg)
+        @bufferSize = @_buffer.length
+
+DataConnectionMock._idPrefix = 'dc_'

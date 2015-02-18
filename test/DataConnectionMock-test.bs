@@ -1,0 +1,32 @@
+import chai: expect
+
+import ../lib/PeerMock
+import ../lib/DataConnectionMock
+
+describe('DataConnectionMock', () ->
+  remote = null
+  local = null
+
+  beforeEach(() ->
+    localPeer = new PeerMock('local')
+    remotePeer = new PeerMock('remote')
+    local = new DataConnectionMock('remote', localPeer)
+    remote = new DataConnectionMock('local', remotePeer)
+    local._connection = remote
+    remote._connection = local
+  )
+
+  it('should emit close on close', (done) ->
+    local.open = true
+    local.on('close', () -> done())
+    local.close()
+  )
+
+  it('should receive what is sent', (done) ->
+    remote.on('data', (message) ->
+      expect(message).to.equal('hi there!')
+      done()
+    )
+    local.send('hi there!')
+  )
+)
