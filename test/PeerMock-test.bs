@@ -1,0 +1,60 @@
+import chai: expect
+
+import ../lib/PeerMock
+
+describe('PeerMock', () ->
+  instance = null
+
+  testEventCallback = (done) ->
+    return (id) ->
+      expect(id).to.equal(instance.id)
+      done()
+
+  beforeEach(() ->
+    instance = new PeerMock('some-id')
+  )
+
+  describe('.on(event)', () ->
+    it('should emit "disconnected" event on disconnect', (done) ->
+      instance.on('disconnected', testEventCallback(done))
+      instance.disconnect()
+    )
+
+    it('should emit "disconnected" event on destroyed', (done) ->
+      instance.on('disconnected', testEventCallback(done))
+      instance.destroy()
+    )
+
+    it('should emit "destroyed" event on destroyed', (done) ->
+      instance.on('destroyed', testEventCallback(done))
+      instance.destroy()
+    )
+  )
+
+  describe('.connect()', () ->
+    local = null
+    remote = null
+
+    beforeEach(() ->
+      local = instance
+      remote = new PeerMock('id')
+    )
+
+    it('local should connect to the remote', (done) ->
+      remote.on('connection', () -> done())
+      local.connect('id')
+    )
+
+    it('should receive message that is sent', (done) ->
+      remote.on('connection', (conn) ->
+        conn.on('data', (message) ->
+          expect(message).to.equal('hi there!')
+          done()
+        )
+      )
+
+      connection = local.connect('id')
+      connection.send('hi there!')
+    )
+  )
+)

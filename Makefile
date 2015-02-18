@@ -9,4 +9,8 @@ test/PeerMock-test.js: test/PeerMock-test.bs test/DataConnectionMock-test.bs
 test: lib/PeerMock.js test/PeerMock-test.js
 	npm test
 
-.PHONY: test
+html-coverage:
+	istanbul report html && open coverage/index.html
+
+
+.PHONY: test html-coverage

@@ -24,13 +24,18 @@ class DataConnectionMock extends EventEmitter
 
   _setRemote: (connection) ->
     @_connection = connection
+    @_connection.on('open', () ->
+      if not @open
+        @open = true
+        @emit('open')
+    )
 
-  _configureDataChannel: () ->
-    @open = true
-    @emit('open')
+  _configureDataChannel: (mocks) ->
+    if not @_connection and @peer in mocks
+      @_setRemote(mocks[@peer]._negotiate(@provider.id, @))
+      @open = true
+      @emit('open')
 
-    if @peer in mocks
-      @_connection = mocks[@peer]._negotiate(@provider.id)
     else
       throw new Error('Peer not found')
 
@@ -48,10 +53,5 @@ class DataConnectionMock extends EventEmitter
       return
     @open = false
     @emit('close')
-
-    _bufferedSend = (msg) ->
-      if @_buffering or not @_trySend(msg)
-        @_buffer.push(msg)
-        @bufferSize = @_buffer.length
 
 DataConnectionMock._idPrefix = 'dc_'
