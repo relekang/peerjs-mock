@@ -2,9 +2,12 @@
 
 Mock for peerjs
 
+## Installation
+
 ```
 npm install relekang/peerjs-mock
 ```
+
 
 ----------------------
 
