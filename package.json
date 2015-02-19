@@ -19,6 +19,13 @@
     "url": "https://github.com/relekang/peerjs-mock/issues"
   },
   "homepage": "https://github.com/relekang/peerjs-mock",
+  "files": [
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "lib/PeerMock.js",
+    "lib/DataConnectionMock.js"
+  ],
   "dependencies": {
     "bailey": "0.0.15",
     "eventemitter3": "^0.1.6",
