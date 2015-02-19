@@ -42,10 +42,10 @@ class PeerMock extends EventEmitter
     if not @connections[peer]
       @connections[peer] = []
     @connections[peer].push(connection)
+    @emit('connection', connection)
 
   _negotiate: (peer, remoteConnection) ->
     localConnection = new DataConnectionMock(peer, @, {})
     localConnection._setRemote(remoteConnection)
     @_addConnection(peer, localConnection)
-    @emit('connection', localConnection)
     return localConnection
