@@ -37,7 +37,7 @@ class DataConnectionMock extends EventEmitter
       @emit('open')
 
     else
-      throw new Error('Peer not found')
+      throw new Error('Peer(#{@peer.id}) not found')
 
   send: (message, chunked) ->
     if not @open
