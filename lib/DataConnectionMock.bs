@@ -17,6 +17,7 @@ class DataConnectionMock extends EventEmitter
     @label = @options.label or @id
     @reliable = @options.reliable
     @serialization = @options.serialization
+    @delay = @options.delay or 0
 
     @_buffer = []
     @_buffering = false
@@ -43,7 +44,9 @@ class DataConnectionMock extends EventEmitter
     if not @open
       @emit('error', new Error('Connection is not open. You should listen for the `open` event before sending messages.'))
 
-    @_connection.receive(message)
+    setTimeout(() ->
+      @_connection.receive(message)
+    , @delay)
 
   receive: (message) ->
     @emit('data', message)
