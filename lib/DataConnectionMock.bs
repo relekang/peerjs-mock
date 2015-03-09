@@ -43,9 +43,9 @@ class DataConnectionMock extends EventEmitter
   send: (message, chunked) ->
     if not @open
       @emit('error', new Error('Connection is not open. You should listen for the `open` event before sending messages.'))
-
+    connection = @_connection
     setTimeout(() ->
-      @_connection.receive(message)
+      connection.receive(message)
     , @delay)
 
   receive: (message) ->
