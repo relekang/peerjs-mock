@@ -1,3 +1,4 @@
+"use strict";
 var __module_chai = require("chai");
 var PeerMock = require("../lib/PeerMock");
 var DataConnectionMock = require("../lib/DataConnectionMock");

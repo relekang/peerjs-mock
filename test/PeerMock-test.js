@@ -1,3 +1,4 @@
+"use strict";
 var __module_chai = require("chai");
 var PeerMock = require("../lib/PeerMock");
 var expect = __module_chai.expect;
@@ -6,7 +7,7 @@ var expect = __module_chai.expect;
 describe('PeerMock', function() {
     var instance = null;
 
-    var testEventCallback = function(done) {
+    var testEventCallback = function testEventCallback(done) {
         return function(id) {
             expect(id).to.equal(instance.id);
             done();

@@ -27,11 +27,11 @@
     "lib/DataConnectionMock.js"
   ],
   "dependencies": {
-    "bailey": "0.0.15",
     "eventemitter3": "^0.1.6",
     "lodash": "^3.2.0"
   },
   "devDependencies": {
+    "bailey": "0.0.17",
     "chai": "*",
     "istanbul": "*",
     "karma": "*",
