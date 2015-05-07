@@ -7,18 +7,19 @@ mocks = {}
 
 class PeerMock extends EventEmitter
 
-  connections: {}
-  disconnected: false
-  destroyed: false
-  open: false
-
   init: (id, options, config, debug) ->
     EventEmitter.call(@)
     @id = id
     @options = options
     @config = config
     @debug = debug
+    @connections = {}
+    @disconnected = false
+    @destroyed = false
+    @open = false
+
     mocks[@id] = @
+
 
   connect: (id, options) ->
     connection = new DataConnectionMock(id, @, options)
